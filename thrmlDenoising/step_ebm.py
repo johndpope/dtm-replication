@@ -63,7 +63,7 @@ class DiffusionStepEBM(AbstractIsingEBMwithGraph):
                              Block([edge.connected_nodes[1] for edge in graph.image_coupling_edges])),
                              image_coupling_inds)
         
-        label_coupling_inds = jnp.array([graph.edge_mapping[e] for e in graph.label_coupling_edges])
+        label_coupling_inds = jnp.array([graph.edge_mapping[e] for e in graph.label_coupling_edges], dtype=jnp.int32)
         self.label_coupling_factor = WeightFactor(jnp.zeros(len(graph.label_coupling_edges)),
                             (Block([edge.connected_nodes[0] for edge in graph.label_coupling_edges]),
                              Block([edge.connected_nodes[1] for edge in graph.label_coupling_edges])),
@@ -107,7 +107,7 @@ class DiffusionStepEBM(AbstractIsingEBMwithGraph):
         model = eqx.tree_at(lambda m: m.image_coupling_factor.weights, model, new_image_coupling_weights)
 
         # Update label_coupling_factor weights (for label_coupling_edges)
-        label_coupling_indices = jnp.array([self.graph.edge_mapping[edge] for edge in self.graph.label_coupling_edges])
+        label_coupling_indices = jnp.array([self.graph.edge_mapping[edge] for edge in self.graph.label_coupling_edges], dtype=jnp.int32)
         new_label_coupling_weights = weights[label_coupling_indices]
         model = eqx.tree_at(lambda m: m.label_coupling_factor.weights, model, new_label_coupling_weights)
 

@@ -220,7 +220,7 @@ class PoissonBinomialIsingGraphManager(AbstractBaseGraphManager):
         label_output_nodes = [nodes_upper[i] for i in label_indices]
 
         image_output_blocks = [Block(image_output_nodes)]
-        label_output_blocks = [Block(label_output_nodes)]
+        label_output_blocks = [Block(label_output_nodes)] if label_output_nodes else []
 
         upper_hidden_indices = [
             i for i in range(len(nodes_upper)) if i not in visible_ind_set

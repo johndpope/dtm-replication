@@ -158,8 +158,8 @@ class DiffusionStep(eqx.Module):
         io_label_coupling_weight = -(1/2)*jnp.log(jnp.tanh((self.label_diffusion_rate / 2) * t_diff))
 
         edge_map = self.model.graph.edge_mapping
-        io_image_edge_indices = jnp.array([edge_map[edge] for edge in self.model.graph.image_coupling_edges])
-        io_label_edge_indices = jnp.array([edge_map[edge] for edge in self.model.graph.label_coupling_edges])
+        io_image_edge_indices = jnp.array([edge_map[edge] for edge in self.model.graph.image_coupling_edges], dtype=jnp.int32)
+        io_label_edge_indices = jnp.array([edge_map[edge] for edge in self.model.graph.label_coupling_edges], dtype=jnp.int32)
 
         weights = jnp.zeros((len(self.model.graph.edges)), dtype=jnp.float32)
         weights = weights.at[io_image_edge_indices].set(io_image_coupling_weight)

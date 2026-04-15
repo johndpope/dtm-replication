@@ -71,6 +71,8 @@ def one_hot_repeated_from_ints(
     return jnp.tile(base, (1, int(num_label_spots)))  
     
 def one_hot(x, digits, num_label_spots, dtype=jnp.int32):
+    if num_label_spots == 0:
+        return jnp.zeros((x.shape[0], 0), dtype=jnp.bool_)
     digits = jnp.array(digits)
     one_hot = jnp.array(x[:, None] == digits, dtype)
     one_hot_repeated = jnp.concatenate([one_hot] * num_label_spots, axis=-1)
